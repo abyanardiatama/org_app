@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('is_external')->default(false);
             $table->boolean('is_bsomtq')->default(false);
             $table->boolean('is_phkmi')->default(false);
+            $table->boolean('is_admin')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
