@@ -2,6 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Divisi;
+use App\Models\Kegiatan;
+use App\Models\Presensi;
+use App\Models\RAB;
+use App\Models\spkb;
+use App\Models\Transaksi;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,7 +19,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        Divisi::factory(8)->create();
+        User::factory(11)->create();
+        Kegiatan::factory(11)->create();
+        Presensi::factory(11)->create();
+        RAB::factory(11)->create();
+        Transaksi::factory(11)->create();
+        spkb::factory(11)->create();
 
         User::factory()->create([
             'name' => 'Test User',
