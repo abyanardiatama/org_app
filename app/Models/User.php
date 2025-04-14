@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Support\Facades\Storage;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasAvatar
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -49,9 +49,52 @@ class User extends Authenticatable
         ];
     }
 
+    public function presensi()
+    {
+        return $this->hasMany(Presensi::class);
+    }
+
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class);
+    }
+
+    public function divisi()
+    {
+        return $this->belongsTo(Divisi::class);
+    }
+
+    public function surat()
+    {
+        return $this->hasMany(Surat::class);
+    }
+
     public function getFilamentAvatarUrl(): ?string
     {
         $avatarColumn = config('filament-edit-profile.avatar_column', 'avatar_url');
-        return $this->$avatarColumn ? Storage::url("$this->$avatarColumn") : null;
+        return $this->$avatarColumn ? Storage::url($this->$avatarColumn) : null;
+        // return $this->{$avatarColumn} ? url('/avatars/' . basename($this->{$avatarColumn})) : null;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Handle updating event
+        static::updating(function ($user) {
+            if ($user->isDirty('avatar_url')) {
+                $oldAvatar = $user->getOriginal('avatar_url');
+                if ($oldAvatar) {
+                    Storage::disk('public')->delete($oldAvatar);
+                }
+            }
+        });
+
+        // Handle deleting event
+        static::deleting(function ($user) {
+            if ($user->avatar_url) {
+                Storage::disk('public')->delete($user->avatar_url);
+            }
+        });
     }
 }
