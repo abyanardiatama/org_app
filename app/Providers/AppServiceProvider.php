@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Kegiatan;
 use App\Observers\KegiatanObserver;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Carbon::setLocale('id');
         Kegiatan::observe(KegiatanObserver::class);
     }
 }
