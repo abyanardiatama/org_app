@@ -18,6 +18,11 @@ return new class extends Migration
             $table->foreignId('divisi_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('prodi')->nullable();
+            $table->string('fakultas')->nullable();
+            $table->string('angkatan')->nullable();
+            $table->string('amanah')->nullable();
+            $table->string('no_hp')->nullable();
             $table->string('role')->default('admin');
             $table->string('nim')->nullable();
             $table->string('nip')->nullable();

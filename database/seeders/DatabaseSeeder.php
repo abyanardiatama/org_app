@@ -19,8 +19,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Divisi::factory(8)->create();
-        User::factory(11)->create();
+        // Divisi::factory(8)->create();
+        // User::factory(11)->create();
+        //user seeder
+        $this->call([
+            DivisiSeeder::class,
+            UserSeeder::class,
+        ]);
         Kegiatan::factory(11)->create();
         Presensi::factory(11)->create();
         RAB::factory(11)->create();

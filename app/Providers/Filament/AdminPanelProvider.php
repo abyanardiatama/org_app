@@ -28,9 +28,14 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        
         return $panel
             ->default()
             ->brandName('Organization App')
+            //logo in public/logo_upn.png
+            ->brandLogo(asset('logo_upn.png'))
+            ->favicon(asset('logo_upn.png'))
+            ->brandLogoHeight('2.5rem')
             // ->brandLogo('https://laravel.com/img/favicon/favicon-32x32.png')
             ->favicon('https://laravel.com/img/favicon/favicon-32x32.png')
             ->id('admin')
@@ -70,6 +75,9 @@ class AdminPanelProvider extends PanelProvider
                 FilamentEditProfilePlugin::make()
                     ->setIcon('heroicon-o-cog')
                     ->shouldShowAvatarForm()
+                    ->customProfileComponents([
+                        \App\Livewire\ProfileComponent::class,
+                    ])
             ])
             ->userMenuItems([
                 'profile' => MenuItem::make()

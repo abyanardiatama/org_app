@@ -63,12 +63,7 @@ class User extends Authenticatable implements HasAvatar
     {
         return $this->belongsTo(Divisi::class);
     }
-
-    public function surat()
-    {
-        return $this->hasMany(Surat::class);
-    }
-
+    
     public function getFilamentAvatarUrl(): ?string
     {
         $avatarColumn = config('filament-edit-profile.avatar_column', 'avatar_url');
