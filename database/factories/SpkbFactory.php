@@ -30,9 +30,13 @@ class SpkbFactory extends Factory
             //user with role 'ketua'
             'ketua_kmi' => User::where('role', 'ketua')->inRandomOrder()->first()?->name ?? 'Default Ketua',
             'nim_ketua_kmi' => User::where('role', 'ketua')->inRandomOrder()->first()?->nim ?? 'Default NIM Ketua',
+            //directory for ttd_ketua_kmi
+            'ttd_ketua_kmi' => $this->faker->boolean(50) ? UploadedFile::fake()->image($this->faker->word . '.png', 100, 100) : null,
             //user with role 'sekretaris'
             'sekretaris_kmi' => User::where('role', 'sekretaris')->inRandomOrder()->first()?->name ?? 'Default Sekretaris',
             'nim_sekretaris_kmi' => User::where('role', 'sekretaris')->inRandomOrder()->first()?->nim ?? 'Default NIM Sekretaris',
+            //directory for ttd_sekretaris_kmi
+            'ttd_sekretaris_kmi' => $this->faker->boolean(50) ? UploadedFile::fake()->image($this->faker->word . '.png', 100, 100) : null,
             //user with role 'kabag_binwa'
             'kabag_binwa' => User::where('role', 'external')->inRandomOrder()->first()?->name ?? 'Default Kabag',
             'nip_kabag_binwa' => User::where('role', 'external')->inRandomOrder()->first()?->nim ?? 'Default NIP Kabag',

@@ -9,4 +9,5 @@ class spkb extends Model
 {
     /** @use HasFactory<\Database\Factories\SpkbFactory> */
     use HasFactory;
+    protected $guarded = [];
 }

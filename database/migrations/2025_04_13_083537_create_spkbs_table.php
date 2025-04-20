@@ -18,8 +18,10 @@ return new class extends Migration
             $table->string('jml_lampiran');
             $table->string('ketua_kmi');
             $table->string('nim_ketua_kmi');
+            $table->string('ttd_ketua_kmi')->nullable();
             $table->string('sekretaris_kmi');
             $table->string('nim_sekretaris_kmi');
+            $table->string('ttd_sekretaris_kmi')->nullable();
             $table->string('kabag_binwa');
             $table->string('nip_kabag_binwa');
             $table->string('pembina_kmi');

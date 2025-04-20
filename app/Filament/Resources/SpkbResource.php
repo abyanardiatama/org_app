@@ -14,9 +14,15 @@ use Filament\Support\Enums\Alignment;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Enums\ActionsPosition;
 use App\Filament\Resources\SpkbResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SpkbResource\RelationManagers;
+use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\IOFactory;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Carbon\Carbon;
 use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 
 class SpkbResource extends Resource
@@ -69,7 +75,7 @@ class SpkbResource extends Resource
                     ->imageResizeTargetWidth('250')
                     ->imageResizeTargetHeight('100')
                     //visible if ttd sekretaris is not null and for user ketua
-                    ->visible(fn (Spkb $record) => Auth::user()->role === 'ketua' && $record->ttd_sekretaris_kmi !== null)
+                    ->visible(fn (?Spkb $record) => $record !== null && Auth::user()->role === 'ketua' && $record->ttd_sekretaris_kmi !== null)
                     ->required(),
                 Forms\Components\TextInput::make('sekretaris_kmi')
                     ->label('Sekretaris KMI')
@@ -82,9 +88,9 @@ class SpkbResource extends Resource
                     ->columnSpanFull()
                     ->image()
                     ->directory('ttd_spkb')
-                    ->imageResizeMode('cover')
-                    ->imageResizeTargetWidth('250')
-                    ->imageResizeTargetHeight('100')
+                    // ->imageResizeMode('cover')
+                    // ->imageResizeTargetWidth('400')
+                    // ->imageResizeTargetHeight('200')
                     ->visible(fn () => Auth::user()->role === 'sekretaris')
                     ->required(),
                 Forms\Components\TextInput::make('kabag_binwa')
@@ -102,6 +108,7 @@ class SpkbResource extends Resource
                 Forms\Components\FileUpload::make('susunan_pengurus')
                     ->acceptedFileTypes(['application/pdf'])
                     ->directory('spkb')
+                    ->openable()
                     ->label('Susunan Pengurus')
                     ->required(),
             ]);
@@ -110,6 +117,7 @@ class SpkbResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading('Data SPKB sedang dalam proses')
             ->columns([
                 Tables\Columns\TextColumn::make('no_surat')
                     ->label('Nomor Surat')
@@ -177,23 +185,43 @@ class SpkbResource extends Resource
                     ->color('success')
                     //visible if ttd_ketua_kmi, ttd_sekretaris_kmi is not null
                     ->visible(fn (spkb $record) => $record->ttd_ketua_kmi != null && $record->ttd_sekretaris_kmi != null)
-                    ->requiresConfirmation()
                     ->icon('heroicon-o-arrow-down')
                     ->action(function ($record) {
-                        // Download the file
-                        return response()->download(storage_path('app/public/spkb/' . $record->susunan_pengurus), $record->susunan_pengurus);
-
-                        Notification::make()
-                            ->title('Status Kas Diubah')
-                            ->success()
-                            ->send();
-                    }),
+                        $templateProcessor = new TemplateProcessor(public_path('template/template-spkb.docx'));
+                    
+                        $templateProcessor->setValue('no_surat', $record->no_surat);
+                        $templateProcessor->setValue('periode', $record->periode);  
+                        $templateProcessor->setValue('tanggal', Carbon::parse($record->tanggal_surat)->translatedFormat('j F Y'));
+                        $templateProcessor->setValue('jml_lampiran', $record->jml_lampiran);
+                        $templateProcessor->setValue('ketua_kmi', $record->ketua_kmi);
+                        $templateProcessor->setValue('nim_ketua', $record->nim_ketua_kmi);
+                        $templateProcessor->setImageValue('ttd_ketua_kmi', public_path('storage/' . $record->ttd_ketua_kmi));
+                        $templateProcessor->setValue('sekretaris_kmi', $record->sekretaris_kmi);
+                        $templateProcessor->setValue('nim_sekre', $record->nim_sekretaris_kmi);
+                        $templateProcessor->setImageValue('ttd_sekretaris_kmi', public_path('storage/' . $record->ttd_sekretaris_kmi));
+                        $templateProcessor->setValue('kabag_binwa', $record->kabag_binwa);
+                        $templateProcessor->setValue('nip_kabag_binwa', $record->nip_kabag_binwa);
+                        $templateProcessor->setValue('pembina_kmi', $record->pembina_kmi);
+                        $templateProcessor->setValue('nip_pembina_kmi', $record->nip_pembina_kmi);
+                    
+                        // Simpan ke DOCX
+                        $cleanNoSurat = str_replace('/', '_', $record->no_surat);
+                        $fileName = 'SPKB_' . $cleanNoSurat;
+                        $docxPath = public_path("storage/spkb/{$fileName}.docx");
+                        // $pdfPath = public_path("storage/spkb/{$fileName}.pdf");
+                    
+                        $templateProcessor->saveAs($docxPath);
+                        
+                        
+                    
+                        return response()->download($docxPath)->deleteFileAfterSend(true);
+                    }),                    
                 ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
                 ]),
-            ])
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -215,5 +243,25 @@ class SpkbResource extends Resource
             'create' => Pages\CreateSpkb::route('/create'),
             'edit' => Pages\EditSpkb::route('/{record}/edit'),
         ];
+    }
+
+    //can create
+    public static function canCreate(): bool
+    {
+        return Auth::user()->role === 'sekretaris';
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        //ketua show data where ttd_sekretaris_kmi is not null
+        return Spkb::query()
+        ->when(Auth::user()->role === 'ketua', function (Builder $query) {
+            return $query->whereNotNull('ttd_sekretaris_kmi');
+        })
+        ->when(Auth::user()->role === 'sekretaris', function (Builder $query) {
+            //show data where ttd_ketua_kmi is null and ttd_sekretaris_kmi is null
+            return $query->whereNull('ttd_ketua_kmi')
+                ->whereNull('ttd_sekretaris_kmi');
+        });
     }
 }
