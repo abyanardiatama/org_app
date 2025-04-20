@@ -29,7 +29,11 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'role' => fake()->randomElement(['admin', 'bendahara', 'sekretaris', 'ketua', 'anggota', 'external', 'bsomtq', 'phkmi']),
             'divisi_id' => fake()->numberBetween(1, 8),
-            // give nim except for 'external'
+            'prodi' => fake()->randomElement(['Teknik Informatika', 'Sistem Informasi', 'Teknik Komputer']),
+            'fakultas' => fake()->randomElement(['Teknik', 'Ekonomi', 'Hukum']),
+            'angkatan' => fake()->year(),
+            'amanah' => fake()->randomElement(['Ketua', 'Wakil Ketua', 'Sekretaris', 'Bendahara']),
+            'no_hp' => fake()->phoneNumber(),
             'nim' => fn (array $attributes) => $attributes['role'] !== 'external' ? fake()->numerify('##########') : null,
             'nip' => fn (array $attributes) => $attributes['role'] === 'external' ? fake()->numerify('##########') : null,
             'password' => static::$password ??= Hash::make('password'),

@@ -19,9 +19,4 @@ class Divisi extends Model
     {
         return $this->hasMany(Kegiatan::class);
     }
-
-    public function surat()
-    {
-        return $this->hasMany(Surat::class);
-    }
 }
