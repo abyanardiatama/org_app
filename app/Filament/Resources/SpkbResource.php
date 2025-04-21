@@ -208,13 +208,26 @@ class SpkbResource extends Resource
                         $cleanNoSurat = str_replace('/', '_', $record->no_surat);
                         $fileName = 'SPKB_' . $cleanNoSurat;
                         $docxPath = public_path("storage/spkb/{$fileName}.docx");
-                        // $pdfPath = public_path("storage/spkb/{$fileName}.pdf");
                     
                         $templateProcessor->saveAs($docxPath);
                         
-                        
-                    
-                        return response()->download($docxPath)->deleteFileAfterSend(true);
+                        // Get $record->susunan_pengurus
+                        $pdfPath = public_path('storage/' . $record->susunan_pengurus);
+
+                        // Download both files as a zip
+                        $zip = new \ZipArchive();
+                        $zipFileName = 'SPKB_' . $cleanNoSurat . '.zip';
+                        $zipFilePath = public_path("storage/spkb/{$zipFileName}");
+                        if ($zip->open($zipFilePath, \ZipArchive::CREATE) === true) {
+                            $zip->addFile($docxPath, "{$fileName}.docx");
+                            $zip->addFile($pdfPath, "{$fileName}.pdf");
+                            $zip->close();
+                        }
+                        // Delete the temporary files
+                        unlink($docxPath);
+                        unlink($pdfPath);
+                        // Return the zip file for download
+                        return response()->download($zipFilePath)->deleteFileAfterSend(true);
                     }),                    
                 ActionGroup::make([
                     Tables\Actions\ViewAction::make(),

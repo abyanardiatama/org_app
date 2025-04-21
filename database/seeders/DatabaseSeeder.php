@@ -6,6 +6,7 @@ use App\Models\Divisi;
 use App\Models\Kegiatan;
 use App\Models\Presensi;
 use App\Models\RAB;
+use App\Models\Sertijab;
 use App\Models\spkb;
 use App\Models\Transaksi;
 use App\Models\User;
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder
         RAB::factory(11)->create();
         Transaksi::factory(11)->create();
         spkb::factory(11)->create();
+        Sertijab::factory(11)->create();
 
         User::factory()->create([
             'name' => 'Test User',
