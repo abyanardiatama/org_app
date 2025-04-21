@@ -31,9 +31,10 @@ class AdminPanelProvider extends PanelProvider
         
         return $panel
             ->default()
-            ->brandName('Organization App')
+            // ->brandName('Sistem Informasi Management KMI')
             //logo in public/logo_upn.png
-            ->brandLogo(asset('logo_upn.png'))
+            ->brandLogo(fn () => view('filament.admin.logo'))
+            // ->brandLogo(asset('logo_upn.png'))
             ->favicon(asset('logo_upn.png'))
             ->brandLogoHeight('2.5rem')
             // ->brandLogo('https://laravel.com/img/favicon/favicon-32x32.png')
