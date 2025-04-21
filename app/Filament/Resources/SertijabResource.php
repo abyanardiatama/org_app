@@ -61,12 +61,12 @@ class SertijabResource extends Resource
                 Forms\Components\Select::make('ketua_lama')
                     ->label('Ketua Lama')
                     ->options(function () {
-                        return \App\Models\User::where('role', 'ketua')->pluck('name', 'id');
+                        return \App\Models\User::where('role', 'ketua')->pluck('name', 'name');
                     })
                     ->live(debounce:100)
                     ->afterStateUpdated(function (callable $set, $state) {
                         if ($state) {
-                            $user = \App\Models\User::find($state);
+                            $user = \App\Models\User::where('name', $state)->first();
                             if ($user) {
                                 $set('nim_ketua_lama', $user->nim);
                             }
@@ -89,12 +89,12 @@ class SertijabResource extends Resource
                 Forms\Components\Select::make('ketua_baru')
                     ->label('Ketua Baru')
                     ->options(function () {
-                        return \App\Models\User::where('role', 'ketua')->pluck('name', 'id');
+                        return \App\Models\User::where('role', 'ketua')->pluck('name', 'name');
                     })
                     ->live(debounce:100)
                     ->afterStateUpdated(function (callable $set, $state) {
                         if ($state) {
-                            $user = \App\Models\User::find($state);
+                            $user = \App\Models\User::where('name', $state)->first();
                             if ($user) {
                                 $set('nim_ketua_baru', $user->nim);
                             }
