@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'role' => fake()->randomElement(['admin', 'bendahara', 'sekretaris', 'ketua', 'anggota', 'external', 'bsomtq', 'phkmi']),
-            'divisi_id' => fake()->numberBetween(1, 8),
+            'divisi_id' => fake()->numberBetween(1, 7),
             'prodi' => fake()->randomElement(['Teknik Informatika', 'Sistem Informasi', 'Teknik Komputer']),
             'fakultas' => fake()->randomElement(['Teknik', 'Ekonomi', 'Hukum']),
             'angkatan' => fake()->year(),
@@ -38,6 +38,7 @@ class UserFactory extends Factory
             'nip' => fn (array $attributes) => $attributes['role'] === 'external' ? fake()->numerify('##########') : null,
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'gender' => fake()->randomElement(['L', 'P']),
         ];
     }
 

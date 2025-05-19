@@ -14,10 +14,11 @@ use Filament\Navigation\NavigationItem;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
+
 use App\Filament\Resources\PresensiResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PresensiResource\RelationManagers;
-
+use App\Filament\Resources\PresensiResource\Widgets\PresensiOverview;
 
 class PresensiResource extends Resource
 {
@@ -58,7 +59,7 @@ class PresensiResource extends Resource
                     ->afterStateUpdated(fn ($state, callable $set, callable $get) => (
                         function () use ($state, $set, $get) {
                             $poin_kehadiran = match ($state) {
-                                'pending' => -1,
+                                'pending' => 0,
                                 'tidak_hadir' => 0,
                                 'hadir' => 1,
                                 default => 0,
@@ -264,6 +265,13 @@ class PresensiResource extends Resource
         }
 
         return parent::getEloquentQuery()->where('user_id', $user->id);
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            PresensiOverview::class,
+        ];
     }
 
 

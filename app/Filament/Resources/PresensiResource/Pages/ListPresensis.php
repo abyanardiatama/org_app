@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\PresensiResource\Pages;
 
-use App\Filament\Resources\PresensiResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Resources\PresensiResource;
+use App\Filament\Resources\PresensiResource\Widgets\PresensiOverview;
 
 class ListPresensis extends ListRecords
 {
@@ -14,6 +15,12 @@ class ListPresensis extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            PresensiOverview::class,
         ];
     }
 }

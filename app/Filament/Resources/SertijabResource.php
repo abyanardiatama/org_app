@@ -18,6 +18,7 @@ use Filament\Tables\Enums\ActionsPosition;
 use App\Filament\Resources\SertijabResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SertijabResource\RelationManagers;
+use Filament\Forms\Components\Section;
 
 class SertijabResource extends Resource
 {
@@ -31,101 +32,110 @@ class SertijabResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DatePicker::make('tanggal_surat')
-                    ->label('Tanggal Surat')
-                    ->columnSpanFull()
-                    ->required(),
-                Forms\Components\Select::make('periode_lama')
-                    ->label('Periode Lama')
-                    //options from 2020 to now
-                    ->options(function () {
-                        $years = [];
-                        for ($i = 2020; $i <= date('Y'); $i++) {
-                            $years[$i] = $i;
-                        }
-                        return $years;
-                    })
-                    ->searchable()
-                    ->required(),
-                Forms\Components\Select::make('periode_baru')
-                    ->label('Periode Baru')
-                    //options from 2020 to now
-                    ->options(function () {
-                        $years = [];
-                        for ($i = 2020; $i <= date('Y'); $i++) {
-                            $years[$i] = $i;
-                        }
-                        return $years;
-                    })
-                    ->required(),
-                Forms\Components\Select::make('ketua_lama')
-                    ->label('Ketua Lama')
-                    ->options(function () {
-                        return \App\Models\User::where('role', 'ketua')->pluck('name', 'name');
-                    })
-                    ->live(debounce:100)
-                    ->afterStateUpdated(function (callable $set, $state) {
-                        if ($state) {
-                            $user = \App\Models\User::where('name', $state)->first();
-                            if ($user) {
-                                $set('nim_ketua_lama', $user->nim);
+                Section::make('Informasi Surat')->schema([
+                    Forms\Components\DatePicker::make('tanggal_surat')
+                        ->label('Tanggal Surat')
+                        ->columnSpanFull()
+                        ->required(),
+                    Forms\Components\Select::make('periode_lama')
+                        ->label('Periode Lama')
+                        ->options(function () {
+                            $years = [];
+                            for ($i = 2020; $i <= date('Y'); $i++) {
+                                $years[$i] = $i;
                             }
-                        }
-                    })
-                    ->searchable()
-                    ->required(),
-                Forms\Components\TextInput::make('nim_ketua_lama')
-                    ->label('NIM Ketua Lama')
-                    ->readOnly()
-                    ->required(),
-                Forms\Components\FileUpload::make('ttd_ketua_lama')
-                    ->label('Tanda Tangan Ketua KMI Lama')
-                    ->columnSpanFull()
-                    ->image()
-                    ->directory('ttd_sertijab')
-                    ->imageResizeMode('cover')
-                    ->imageResizeTargetWidth('250')
-                    ->imageResizeTargetHeight('100'),
-                Forms\Components\Select::make('ketua_baru')
-                    ->label('Ketua Baru')
-                    ->options(function () {
-                        return \App\Models\User::where('role', 'ketua')->pluck('name', 'name');
-                    })
-                    ->live(debounce:100)
-                    ->afterStateUpdated(function (callable $set, $state) {
-                        if ($state) {
-                            $user = \App\Models\User::where('name', $state)->first();
-                            if ($user) {
-                                $set('nim_ketua_baru', $user->nim);
+                            return $years;
+                        })
+                        ->searchable()
+                        ->required(),
+                    Forms\Components\Select::make('periode_baru')
+                        ->label('Periode Baru')
+                        ->options(function () {
+                            $years = [];
+                            for ($i = 2020; $i <= date('Y'); $i++) {
+                                $years[$i] = $i;
                             }
-                        }
-                    })
-                    ->searchable()
-                    ->required(),
-                Forms\Components\TextInput::make('nim_ketua_baru')
-                    ->label('NIM Ketua Baru')
-                    ->readOnly()
-                    ->required(),
-                Forms\Components\FileUpload::make('ttd_ketua_baru')
-                    ->label('Tanda Tangan Ketua KMI Baru')
-                    ->columnSpanFull()
-                    ->image()
-                    ->directory('ttd_sertijab')
-                    ->imageResizeMode('cover')
-                    ->imageResizeTargetWidth('250')
-                    ->imageResizeTargetHeight('100'),
-                Forms\Components\TextInput::make('warek_mhs')
-                    ->label('Wakil Rektor Mahasiswa')
-                    ->required(),
-                Forms\Components\TextInput::make('nip_warek_mhs')
-                    ->label('NIP Wakil Rektor Mahasiswa')
-                    ->required(),
-                Forms\Components\TextInput::make('pembina_kmi')
-                    ->label('Pembina KMI')
-                    ->required(),
-                Forms\Components\TextInput::make('nip_pembina_kmi')
-                    ->label('NIP Pembina KMI')
-                    ->required(),
+                            return $years;
+                        })
+                        ->required(),
+                ])->columns(2),
+
+                Section::make('Ketua Lama')->schema([
+                    Forms\Components\Select::make('ketua_lama')
+                        ->label('Ketua Lama')
+                        ->options(function () {
+                            return \App\Models\User::where('role', 'ketua')->pluck('name', 'name');
+                        })
+                        ->live(debounce:100)
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            if ($state) {
+                                $user = \App\Models\User::where('name', $state)->first();
+                                if ($user) {
+                                    $set('nim_ketua_lama', $user->nim);
+                                }
+                            }
+                        })
+                        ->searchable()
+                        ->required(),
+                    Forms\Components\TextInput::make('nim_ketua_lama')
+                        ->label('NIM Ketua Lama')
+                        ->readOnly()
+                        ->required(),
+                    Forms\Components\FileUpload::make('ttd_ketua_lama')
+                        ->label('Tanda Tangan Ketua KMI Lama')
+                        ->columnSpanFull()
+                        ->image()
+                        ->directory('ttd_sertijab')
+                        ->imageResizeMode('cover')
+                        ->imageResizeTargetWidth('250')
+                        ->imageResizeTargetHeight('100'),
+                ])->columns(2),
+
+                Section::make('Ketua Baru')->schema([
+                    Forms\Components\Select::make('ketua_baru')
+                        ->label('Ketua Baru')
+                        ->options(function () {
+                            return \App\Models\User::where('role', 'ketua')->pluck('name', 'name');
+                        })
+                        ->live(debounce:100)
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            if ($state) {
+                                $user = \App\Models\User::where('name', $state)->first();
+                                if ($user) {
+                                    $set('nim_ketua_baru', $user->nim);
+                                }
+                            }
+                        })
+                        ->searchable()
+                        ->required(),
+                    Forms\Components\TextInput::make('nim_ketua_baru')
+                        ->label('NIM Ketua Baru')
+                        ->readOnly()
+                        ->required(),
+                    Forms\Components\FileUpload::make('ttd_ketua_baru')
+                        ->label('Tanda Tangan Ketua KMI Baru')
+                        ->columnSpanFull()
+                        ->image()
+                        ->directory('ttd_sertijab')
+                        ->imageResizeMode('cover')
+                        ->imageResizeTargetWidth('250')
+                        ->imageResizeTargetHeight('100'),
+                ])->columns(2),
+
+                Section::make('Informasi Tambahan')->schema([
+                    Forms\Components\TextInput::make('warek_mhs')
+                        ->label('Wakil Rektor Mahasiswa')
+                        ->required(),
+                    Forms\Components\TextInput::make('nip_warek_mhs')
+                        ->label('NIP Wakil Rektor Mahasiswa')
+                        ->required(),
+                    Forms\Components\TextInput::make('pembina_kmi')
+                        ->label('Pembina KMI')
+                        ->required(),
+                    Forms\Components\TextInput::make('nip_pembina_kmi')
+                        ->label('NIP Pembina KMI')
+                        ->required(),
+                ])->columns(2),
             ]);
     }
 
@@ -172,7 +182,6 @@ class SertijabResource extends Resource
                 Action::make('Download')
                 ->label('Download')
                 ->color('success')
-                //visible if ttd_ketua_lama and ttd_ketua_baru is not null
                 ->visible(fn ($record) => $record->ttd_ketua_lama != null && $record->ttd_ketua_baru != null)
                 ->icon('heroicon-o-arrow-down')
                 ->action(function ($record) {
@@ -233,15 +242,13 @@ class SertijabResource extends Resource
         $user = Auth::user();
 
         if (!$user) {
-            abort(403, 'Unauthorized'); // pastikan login
+            abort(403, 'Unauthorized');
         }
 
-        // Sekretaris: akses semua
         if ($user->role === 'sekretaris') {
             return parent::getEloquentQuery();
         }
 
-        // Ketua: hanya surat yang melibatkan dirinya
         if ($user->role === 'ketua') {
             return parent::getEloquentQuery()
                 ->where(function ($query) use ($user) {
@@ -252,7 +259,6 @@ class SertijabResource extends Resource
                 });
         }
 
-        // Role lain: tidak bisa akses
         abort(403, 'Akses tidak diizinkan');
     }
 

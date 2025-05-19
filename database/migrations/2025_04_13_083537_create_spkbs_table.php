@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('no_surat');
             $table->date('tanggal_surat');
-            $table->string('jml_lampiran');
+            $table->string('jml_lampiran')->nullable();
             $table->string('ketua_kmi');
             $table->string('nim_ketua_kmi');
             $table->string('ttd_ketua_kmi')->nullable();

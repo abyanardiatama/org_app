@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -36,10 +37,11 @@ class ProfileComponent extends Component implements HasForms
                 Section::make('Profile Data')
                     ->aside()
                     ->description('Manage your profile data')
+                    ->columns(2) // Arrange fields into two columns
                     ->schema([
                         Forms\Components\TextInput::make('nim')
                             ->label('NIM')
-                            ->columnSpan(2)
+                            ->columnSpan(1)
                             ->default(fn() => Auth::user()->nim)
                             ->required(),
                         Forms\Components\Select::make('divisi_id')
@@ -50,24 +52,31 @@ class ProfileComponent extends Component implements HasForms
                             )
                             ->searchable()
                             ->default(fn() => Auth::user()->divisi->id) // Use the ID instead of nama_divisi
-                            ->columnSpan(2)
+                            ->columnSpan(1)
                             ->required(),
                         Forms\Components\TextInput::make('prodi')
                             ->label('Prodi')
-                            ->columnSpan(2)
+                            ->columnSpan(1)
                             ->default(fn() => Auth::user()->prodi)
                             ->required(),
                         Forms\Components\TextInput::make('fakultas')
                             ->label('Fakultas')
-                            ->columnSpan(2)
+                            ->columnSpan(1)
                             ->default(fn() => Auth::user()->fakultas)
                             ->required(),
                         Forms\Components\TextInput::make('angkatan')
                             ->label('Angkatan')
                             ->numeric()
-                            ->columnSpan(2)
+                            ->columnSpan(1)
                             ->default(fn() => Auth::user()->angkatan)
                             ->required(),
+                        Forms\Components\Select::make('gender')
+                            ->label('Jenis Kelamin')
+                            ->default(fn() => Auth::user()->gender)
+                            ->options([
+                                'L' => 'Laki-laki',
+                                'P' => 'Perempuan',
+                            ]),
                         Forms\Components\Select::make('amanah')
                             ->label('Amanah')
                             ->options(
@@ -81,19 +90,13 @@ class ProfileComponent extends Component implements HasForms
                                     'Staff',
                                 ]
                             )
-                            ->columnSpan(2)
+                            ->columnSpan(1)
                             ->searchable()
                             ->default(fn() => Auth::user()->amanah)
                             ->required(),
-                        Forms\Components\TextInput::make('no_hp')
-                            ->label('No HP')
-                            ->tel()
-                            ->prefix('+62')
-                            ->columnSpan(2)
-                            ->default(fn() => Auth::user()->no_hp)
-                            ->required(),
                         Forms\Components\Select::make('role')
                             ->label('Role')
+                            ->columnSpan(1)
                             ->options([
                                 'admin' => 'Admin',
                                 'bendahara' => 'Bendahara',
@@ -104,14 +107,22 @@ class ProfileComponent extends Component implements HasForms
                                 'bsomtq' => 'BSOMTQ',
                                 'phkmi' => 'PHKMI',
                             ])
-                            ->default(fn() => Auth::user()->role) // Disable for non-ketua and non-sekretaris
-                            ->visible(fn() => in_array(Auth::user()->role, ['ketua', 'sekretaris'])) // Show only for non-ketua and non-sekretaris
+                            ->default(fn() => Auth::user()->role) // Use the current user's role as the default value
+                            ->visible(fn() => in_array(Auth::user()->role, ['ketua', 'sekretaris'])) // Show only for ketua and sekretaris
                             ->required(),
                         Forms\Components\TextInput::make('role')
                             ->label('Role')
+                            ->columnSpan(1)
                             ->disabled() // Disable for ketua and sekertaris
                             ->visible(fn() => !in_array(Auth::user()->role, ['ketua', 'sekretaris'])) // Show only for non-ketua and non-sekretaris
                             ->default(fn() => ucwords(Auth::user()->role)),
+                        Forms\Components\TextInput::make('no_hp')
+                            ->label('No HP')
+                            ->tel()
+                            ->prefix('+62')
+                            ->columnSpan(2)
+                            ->default(fn() => Auth::user()->no_hp)
+                            ->required(),
                         
                     ]),
             ])

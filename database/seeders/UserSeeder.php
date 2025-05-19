@@ -38,6 +38,7 @@ class UserSeeder extends Seeder
                 'divisi_id' => $divisiMapping['Pengurus Inti'],
                 'amanah' => 'Ketua Umum',
                 'no_hp' => '6289526402549',
+                'gender' => 'L',
             ],
             [
                 'name' => 'Ayunda Nur Saufani',
@@ -50,6 +51,7 @@ class UserSeeder extends Seeder
                 'divisi_id' => $divisiMapping['Pengurus Inti'],
                 'amanah' => 'Wakil Ketua Umum',
                 'no_hp' => '6285156576271',
+                'gender' => 'P',
             ],
             [
                 'name' => 'Shinta Nursobah Chairani',
@@ -62,6 +64,7 @@ class UserSeeder extends Seeder
                 'divisi_id' => $divisiMapping['Pengurus Inti'],
                 'amanah' => 'Sekretaris Umum',
                 'no_hp' => '6285526397492',
+                'gender' => 'P',
             ],
             [
                 'name' => 'Vasorofa Nur Rahmadanti',
@@ -74,6 +77,7 @@ class UserSeeder extends Seeder
                 'divisi_id' => $divisiMapping['Pengurus Inti'],
                 'amanah' => 'Bendahara Umum',
                 'no_hp' => '6285643162781',
+                'gender' => 'P',
             ],
             // BK KMMI
             [
@@ -87,10 +91,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2022',
                 'amanah' => 'Ketua Divisi',
                 'no_hp' => '6281338807313',
+                'gender' => 'P',
                 'nim' => '121220104',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Muhammad Yafi Fathoni',
@@ -103,10 +106,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2023',
                 'amanah' => 'Wakil Ketua Divisi',
                 'no_hp' => '62895397590200',
+                'gender' => 'P',
                 'nim' => '112230094',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Suroya Nazma Huriyah',
@@ -119,10 +121,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2024',
                 'amanah' => 'Staff',
                 'no_hp' => '6285794929638',
+                'gender' => 'P',
                 'nim' => '121240132',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Annisa Indriani',
@@ -135,10 +136,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2024',
                 'amanah' => 'Staff',
                 'no_hp' => '6287736653765',
+                'gender' => 'P',
                 'nim' => '142240131',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Farhan Mufid Muhammad',
@@ -151,10 +151,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2023',
                 'amanah' => 'Staff',
                 'no_hp' => '6285697677470',
+                'gender' => 'L',
                 'nim' => '151230166',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Muhammad Ikhsan Firdaus Saelan',
@@ -167,10 +166,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2024',
                 'amanah' => 'Staff',
                 'no_hp' => '6281223548394',
+                'gender' => 'L',
                 'nim' => '123240202',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             // Kaderisasi
             [
@@ -184,10 +182,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2022',
                 'amanah' => 'Ketua Divisi',
                 'no_hp' => '6285879414833',
+                'gender' => 'P',
                 'nim' => '142220151',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Isnu Angga Winata',
@@ -200,10 +197,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2023',
                 'amanah' => 'Wakil Ketua Divisi',
                 'no_hp' => '6285641660155',
+                'gender' => 'L',
                 'nim' => '142230229',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Nisrina Taqiyah',
@@ -216,10 +212,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2022',
                 'amanah' => 'Wakil Ketua Divisi',
                 'no_hp' => '6289676166609',
+                'gender' => 'P',
                 'nim' => '152220065',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Tabriza Aqila',
@@ -232,10 +227,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2023',
                 'amanah' => 'Staff',
                 'no_hp' => '62895326932277',
+                'gender' => 'P',
                 'nim' => '154230022',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Renza Juheni',
@@ -248,10 +242,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2022',
                 'amanah' => 'Staff',
                 'no_hp' => '6285147043278',
+                'gender' => 'L',
                 'nim' => '141220235',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Ahmad Mu\'tashim Rantisi',
@@ -264,10 +257,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2024',
                 'amanah' => 'Staff',
                 'no_hp' => '6282183844213',
+                'gender' => 'L',
                 'nim' => '113240045',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Alfath Hanif Baihaqi',
@@ -280,10 +272,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2023',
                 'amanah' => 'Staff',
                 'no_hp' => '6288218144794',
+                'gender' => 'L',
                 'nim' => '113230203',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Abyaz Affanzaky Shanahan',
@@ -296,123 +287,115 @@ class UserSeeder extends Seeder
                 'angkatan' => '2024',
                 'amanah' => 'Staff',
                 'no_hp' => '62895385793113',
+                'gender' => 'L',
                 'nim' => '123240130',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             // Syiar
             [
                 'name' => 'Haqqil Maulana',
-                'email' => 'haqqil.maulana@example.com',  // Ubah dengan email yang sesuai
+                'email' => 'haqqil.maulana@example.com',
                 'email_verified_at' => now(),
                 'role' => 'anggota',
-                'divisi_id' => 4,  // Divisi Syiar
+                'divisi_id' => 4,
                 'prodi' => 'Teknik Perminyakan',
                 'fakultas' => 'FTM',
                 'angkatan' => 22,
                 'amanah' => 'Ketua Divisi',
                 'no_hp' => '6282261320563',
+                'gender' => 'L',
                 'nim' => '113220038',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Azza Jauza Zulfa Laudza Muslim',
-                'email' => 'azza.jauza@example.com',  // Ubah dengan email yang sesuai
+                'email' => 'azza.jauza@example.com',
                 'email_verified_at' => now(),
                 'role' => 'anggota',
-                'divisi_id' => 4,  // Divisi Syiar
+                'divisi_id' => 4,
                 'prodi' => 'Hubungan Masyarakat',
                 'fakultas' => 'FISIP',
                 'angkatan' => 23,
                 'amanah' => 'Wakil Ketua Divisi',
                 'no_hp' => '6285156784144',
+                'gender' => 'P',
                 'nim' => '154230090',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Ridho Wahyu Pratama',
-                'email' => 'ridho.wahyu@example.com',  // Ubah dengan email yang sesuai
+                'email' => 'ridho.wahyu@example.com',
                 'email_verified_at' => now(),
                 'role' => 'anggota',
-                'divisi_id' => 4,  // Divisi Syiar
+                'divisi_id' => 4,
                 'prodi' => 'Teknik Perminyakan',
                 'fakultas' => 'FTM',
                 'angkatan' => 23,
                 'amanah' => 'Staff',
                 'no_hp' => '6289687567744',
+                'gender' => 'L',
                 'nim' => '113230153',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Indah Latifa Kamil',
-                'email' => 'indah.latifa@example.com',  // Ubah dengan email yang sesuai
+                'email' => 'indah.latifa@example.com',
                 'email_verified_at' => now(),
                 'role' => 'anggota',
-                'divisi_id' => 4,  // Divisi Syiar
+                'divisi_id' => 4,
                 'prodi' => 'Hubungan Internasional',
                 'fakultas' => 'FISIP',
                 'angkatan' => 23,
                 'amanah' => 'Staff',
                 'no_hp' => '6282141664671',
+                'gender' => 'P',
                 'nim' => '151230033',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Rina Desi Hartati',
-                'email' => 'rina.desi@example.com',  // Ubah dengan email yang sesuai
+                'email' => 'rina.desi@example.com',
                 'email_verified_at' => now(),
                 'role' => 'anggota',
-                'divisi_id' => 4,  // Divisi Syiar
+                'divisi_id' => 4,
                 'prodi' => 'Ekonomi Pembangunan',
                 'fakultas' => 'FEB',
                 'angkatan' => 24,
                 'amanah' => 'Staff',
                 'no_hp' => '6285716526637',
+                'gender' => 'P',
                 'nim' => '143240004',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Rohani',
-                'email' => 'rohani@example.com',  // Ubah dengan email yang sesuai
+                'email' => 'rohani@example.com',
                 'email_verified_at' => now(),
                 'role' => 'anggota',
-                'divisi_id' => 4,  // Divisi Syiar
+                'divisi_id' => 4,
                 'prodi' => 'Teknik Kimia',
                 'fakultas' => 'FTI',
                 'angkatan' => 24,
                 'amanah' => 'Staff',
                 'no_hp' => '6282322104770',
+                'gender' => 'P',
                 'nim' => '121240105',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Shafiq Shidqi Azizi',
-                'email' => 'shafiq.shidqi@example.com',  // Ubah dengan email yang sesuai
+                'email' => 'shafiq.shidqi@example.com',
                 'email_verified_at' => now(),
                 'role' => 'anggota',
-                'divisi_id' => 4,  // Divisi Syiar
+                'divisi_id' => 4,
                 'prodi' => 'Informatika',
                 'fakultas' => 'FTI',
                 'angkatan' => 24,
                 'amanah' => 'Staff',
                 'no_hp' => '6285860242402',
+                'gender' => 'L',
                 'nim' => '123240085',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             // Dana Usaha
             [
@@ -420,16 +403,15 @@ class UserSeeder extends Seeder
                 'email' => 'aina.danausaha@example.com',
                 'email_verified_at' => now(),
                 'role' => 'ketua',
-                'divisi_id' => 5, // Dana Usaha
+                'divisi_id' => 5,
                 'prodi' => 'Administrasi Bisnis',
                 'fakultas' => 'FISIP',
                 'angkatan' => '2023',
                 'amanah' => 'Ketua Divisi',
                 'no_hp' => '62895324105735',
+                'gender' => 'P',
                 'nim' => '152230014',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Syifa Agustina Putri Nurhaliza',
@@ -442,10 +424,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2023',
                 'amanah' => 'Wakil Ketua Divisi',
                 'no_hp' => '6285729967870',
+                'gender' => 'P',
                 'nim' => '114230023',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Amr Habib Santosa',
@@ -458,10 +439,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2024',
                 'amanah' => 'Staff',
                 'no_hp' => '62895339627889',
+                'gender' => 'L',
                 'nim' => '141240780',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Amelia Rahmawati',
@@ -474,27 +454,25 @@ class UserSeeder extends Seeder
                 'angkatan' => '2024',
                 'amanah' => 'Staff',
                 'no_hp' => '62895366034864',
+                'gender' => 'P',
                 'nim' => '152240195',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
-            //Kemuslimahan
+            // Kemuslimahan
             [
                 'name' => 'Afaf Khairunnisa Fadhilah',
                 'email' => 'afaf.kemuslimahan@example.com',
                 'email_verified_at' => now(),
                 'role' => 'ketua',
-                'divisi_id' => 6, // Kemuslimahan
+                'divisi_id' => 6,
                 'prodi' => 'Hubungan Masyarakat',
                 'fakultas' => 'FISIP',
                 'angkatan' => '2022',
                 'amanah' => 'Ketua Divisi',
                 'no_hp' => '6289674079944',
+                'gender' => 'P',
                 'nim' => '154220058',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Hanifah Rahmani Pramestuti',
@@ -507,10 +485,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2022',
                 'amanah' => 'Wakil Ketua Divisi',
                 'no_hp' => '6285800648688',
+                'gender' => 'P',
                 'nim' => '114220033',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Alfika Noor Rachmadani',
@@ -523,10 +500,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2022',
                 'amanah' => 'Staff',
                 'no_hp' => '6885740224408',
+                'gender' => 'P',
                 'nim' => '141220104',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Karima Alhusna',
@@ -539,10 +515,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2024',
                 'amanah' => 'Staff',
                 'no_hp' => '6282115926415',
+                'gender' => 'P',
                 'nim' => '121240199',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Salju Rayu Raya Ristyrouva',
@@ -555,10 +530,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2024',
                 'amanah' => 'Staff',
                 'no_hp' => '6281225149494',
+                'gender' => 'P',
                 'nim' => '021240026',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             // Media
             [
@@ -566,16 +540,15 @@ class UserSeeder extends Seeder
                 'email' => 'aisha.media@example.com',
                 'email_verified_at' => now(),
                 'role' => 'ketua',
-                'divisi_id' => 7, // Media
+                'divisi_id' => 7,
                 'prodi' => 'Komunikasi',
                 'fakultas' => 'FISIP',
                 'angkatan' => '2022',
                 'amanah' => 'Ketua Divisi',
                 'no_hp' => '628112250096',
+                'gender' => 'P',
                 'nim' => '153220040',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Faiz Muhammad Al Ghifari',
@@ -588,10 +561,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2023',
                 'amanah' => 'Wakil Ketua Divisi',
                 'no_hp' => '6281327019714',
+                'gender' => 'L',
                 'nim' => '123230128',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Balangga Muhammad',
@@ -604,10 +576,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2022',
                 'amanah' => 'Staff',
                 'no_hp' => '6285866311354',
+                'gender' => 'L',
                 'nim' => '135220045',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Laviotis Thoriq Pradana',
@@ -620,10 +591,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2024',
                 'amanah' => 'Staff',
                 'no_hp' => '628882567400',
+                'gender' => 'L',
                 'nim' => '143240149',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Rahmat Saktiawan',
@@ -636,10 +606,9 @@ class UserSeeder extends Seeder
                 'angkatan' => '2023',
                 'amanah' => 'Staff',
                 'no_hp' => '6281274494838',
+                'gender' => 'L',
                 'nim' => '113230030',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
             [
                 'name' => 'Falzhafia Najmii Aisyah Archman',
@@ -652,38 +621,28 @@ class UserSeeder extends Seeder
                 'angkatan' => '2023',
                 'amanah' => 'Staff',
                 'no_hp' => '6287761701659',
+                'gender' => 'P',
                 'nim' => '142230347',
                 'nip' => null,
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
             ],
-
-
-
         ];
 
-        foreach ($users as $data) {
-            // Pastikan kunci 'divisi' ada dan valid
-            // if (!isset($data['divisi']) || !array_key_exists($data['divisi'], $divisiMapping)) {
-            //     throw new \Exception("Undefined or invalid divisi key: " . ($data['divisi'] ?? 'null'));
-            // }
-        
-            User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                // 'email_verified_at' => now(),
-                'role' => $data['role'],
-                'divisi_id' => $data['divisi_id'],
-                'prodi' => $data['prodi'],
-                'fakultas' => $data['fakultas'],
-                'angkatan' => $data['angkatan'],
-                'amanah' => $data['amanah'],
-                'no_hp' => $data['no_hp'],
-                'nim' => $data['nim'],
-                'nip' => $data['nip'] ?? null,
-                'password' => $data['password'] ?? Hash::make('password'),
-                // 'remember_token' => $data['remember_token'] ?? Str::random(10),
-            ]);
+        // Add default password and timestamps to all users
+        $timestamp = now();
+        $defaultPassword = Hash::make('password');
+
+        foreach ($users as &$data) {
+            $data['password'] = $defaultPassword; // Use precomputed password
+            $data['email_verified_at'] = $data['email_verified_at'] ?? null;
+            $data['nip'] = $data['nip'] ?? null;
+            $data['created_at'] = $timestamp;
+            $data['updated_at'] = $timestamp;
+        }
+
+        // Batch insert users for better performance
+        $batchSize = 500; // Adjust batch size as needed
+        foreach (array_chunk($users, $batchSize) as $batch) {
+            User::insert($batch);
         }
     }
 }

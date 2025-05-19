@@ -90,6 +90,7 @@ class AdminPanelProvider extends PanelProvider
                         return Auth::check();
                     }),
             ])
+            // ->viteTheme('resources/css/filament/admin/theme.css')
             ->authMiddleware([
                 Authenticate::class,
             ]);

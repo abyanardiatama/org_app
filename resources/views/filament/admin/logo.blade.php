@@ -1,8 +1,10 @@
 @if (request()->routeIs('filament.admin.auth.login'))
     {{-- Logo untuk halaman login --}}
-    <div class="flex items-center gap-x-4">
-        <img src="{{ asset('logo_upn.png') }}" class="h-10 p-5" alt="Logo Login">
-        <img src="{{ asset('logo_kmi.png') }}" class="h-10 p-5" alt="Logo Login">
+    <div class="relative gap-y-6 ">
+        <div class="flex items-center gap-x-4">
+            <img src="{{ asset('logo_upn.png') }}" class="h-10 p-5" alt="Logo Login">
+            <img src="{{ asset('logo_kmi.png') }}" class="h-10 p-5" alt="Logo Login">
+        </div>
     </div>
 @else
     {{-- Logo untuk dashboard --}}

@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PresensiController;
 
 Route::get('/', function () {
-    return view('welcome');
+    //go to /admin
+    return redirect('/admin');
 });
 // Route::get('/avatars/{filename}', function ($filename) {
 //     $path = storage_path('app/private/avatars/' . $filename);

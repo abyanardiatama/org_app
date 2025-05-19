@@ -2,27 +2,28 @@
 
 namespace App\Filament\Resources;
 
+use Carbon\Carbon;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Filament\Forms;
 use App\Models\Spkb;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use PhpOffice\PhpWord\IOFactory;
 use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Auth;
 use Filament\Support\Enums\Alignment;
+use Filament\Forms\Components\Section;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
+use PhpOffice\PhpWord\TemplateProcessor;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Enums\ActionsPosition;
 use App\Filament\Resources\SpkbResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SpkbResource\RelationManagers;
-use PhpOffice\PhpWord\TemplateProcessor;
-use PhpOffice\PhpWord\IOFactory;
-use Dompdf\Dompdf;
-use Dompdf\Options;
-use Carbon\Carbon;
 use Saade\FilamentAutograph\Forms\Components\SignaturePad;
 
 class SpkbResource extends Resource
@@ -37,80 +38,87 @@ class SpkbResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('no_surat')
-                    ->label('Nomor Surat')
-                    ->required(),
-                Forms\Components\DatePicker::make('tanggal_surat')
-                    ->label('Tanggal Surat')
-                    ->live(debounce: 100)
-                    ->afterStateUpdated(function ($state, callable $set) {
-                        // Ensure $state is a valid date string before converting
-                        if ($state) {
-                            $date = \Carbon\Carbon::parse($state);
-                            // Fill periode with the year of the date
-                            $set('periode', $date->format('Y'));
-                        }
-                    })
-                    ->required(),
-                Forms\Components\TextInput::make('jml_lampiran')
-                    ->label('Jumlah Lampiran')
-                    ->numeric()
-                    ->minValue(0)
-                    ->required(),
-                Forms\Components\TextInput::make('periode')
-                    ->readOnly()
-                    ->required(),
-                Forms\Components\TextInput::make('ketua_kmi')
-                    ->label('Ketua KMI')
-                    ->required(),
-                Forms\Components\TextInput::make('nim_ketua_kmi')
-                    ->label('NIM Ketua KMI')
-                    ->required(),
-                Forms\Components\FileUpload::make('ttd_ketua_kmi')
-                    ->label('Tanda Tangan Ketua KMI')
-                    ->columnSpanFull()
-                    ->image()
-                    ->directory('ttd_spkb')
-                    ->imageResizeMode('cover')
-                    ->imageResizeTargetWidth('250')
-                    ->imageResizeTargetHeight('100')
-                    //visible if ttd sekretaris is not null and for user ketua
-                    ->visible(fn (?Spkb $record) => $record !== null && Auth::user()->role === 'ketua' && $record->ttd_sekretaris_kmi !== null)
-                    ->required(),
-                Forms\Components\TextInput::make('sekretaris_kmi')
-                    ->label('Sekretaris KMI')
-                    ->required(),
-                Forms\Components\TextInput::make('nim_sekretaris_kmi')
-                    ->label('NIM Sekretaris KMI')
-                    ->required(),
-                Forms\Components\FileUpload::make('ttd_sekretaris_kmi')
-                    ->label('Tanda Tangan Sekretaris KMI')
-                    ->columnSpanFull()
-                    ->image()
-                    ->directory('ttd_spkb')
-                    // ->imageResizeMode('cover')
-                    // ->imageResizeTargetWidth('400')
-                    // ->imageResizeTargetHeight('200')
-                    ->visible(fn () => Auth::user()->role === 'sekretaris')
-                    ->required(),
-                Forms\Components\TextInput::make('kabag_binwa')
-                    ->label('Kabag Binwa')
-                    ->required(),
-                Forms\Components\TextInput::make('nip_kabag_binwa')
-                    ->label('NIP Kabag Binwa')
-                    ->required(),
-                Forms\Components\TextInput::make('pembina_kmi')
-                    ->label('Pembina KMI')
-                    ->required(),
-                Forms\Components\TextInput::make('nip_pembina_kmi')
-                    ->label('NIP Pembina KMI')
-                    ->required(),
-                Forms\Components\FileUpload::make('susunan_pengurus')
-                    ->acceptedFileTypes(['application/pdf'])
-                    ->directory('spkb')
-                    ->openable()
-                    ->label('Susunan Pengurus')
-                    ->required(),
+                Section::make()->schema([
+                    Forms\Components\TextInput::make('no_surat')
+                        ->label('Nomor Surat')
+                        ->required(),
+                    Forms\Components\DatePicker::make('tanggal_surat')
+                        ->label('Tanggal Surat')
+                        ->native(false)    
+                        ->displayFormat('d F Y')
+                        ->required(),
+                    Forms\Components\TextInput::make('jml_lampiran')
+                        ->label('Jumlah Lampiran')
+                        ->numeric()
+                        ->minValue(0)
+                        ->required(),
+                    Forms\Components\Select::make('periode')
+                        ->label('Periode')
+                        ->options(
+                            collect(range(2022, Carbon::now()->year))
+                                ->mapWithKeys(fn ($year) => [$year => $year])
+                                ->toArray()
+                        )
+                        ->required(),
+                ])->columns(2),
+                Section::make()->schema([
+                    Forms\Components\TextInput::make('ketua_kmi')
+                        ->label('Ketua KMI')
+                        ->required(),
+                    Forms\Components\TextInput::make('nim_ketua_kmi')
+                        ->label('NIM Ketua KMI')
+                        ->required(),
+                    Forms\Components\FileUpload::make('ttd_ketua_kmi')
+                        ->label('Tanda Tangan Ketua KMI')
+                        ->columnSpanFull()
+                        ->image()
+                        ->directory('ttd_spkb')
+                        ->imageResizeMode('cover')
+                        ->imageResizeTargetWidth('250')
+                        ->imageResizeTargetHeight('100')
+                        //visible if ttd sekretaris is not null and for user ketua
+                        ->visible(fn (?Spkb $record) => $record !== null && Auth::user()->role === 'ketua' && $record->ttd_sekretaris_kmi !== null)
+                        ->required(),
+                ])->columns(2),
+                Section::make()->schema([
+                    Forms\Components\TextInput::make('sekretaris_kmi')
+                        ->label('Sekretaris KMI')
+                        ->required(),
+                    Forms\Components\TextInput::make('nim_sekretaris_kmi')
+                        ->label('NIM Sekretaris KMI')
+                        ->required(),
+                    Forms\Components\FileUpload::make('ttd_sekretaris_kmi')
+                        ->label('Tanda Tangan Sekretaris KMI')
+                        ->columnSpanFull()
+                        ->image()
+                        ->directory('ttd_spkb')
+                        ->visible(fn () => Auth::user()->role === 'sekretaris')
+                        ->required(),
+                ])->columns(2),
+                Section::make()->schema([
+                    Forms\Components\TextInput::make('kabag_binwa')
+                        ->label('Kabag Binwa')
+                        ->required(),
+                    Forms\Components\TextInput::make('nip_kabag_binwa')
+                        ->label('NIP Kabag Binwa')
+                        ->required(),
+                    Forms\Components\TextInput::make('pembina_kmi')
+                        ->label('Pembina KMI')
+                        ->required(),
+                    Forms\Components\TextInput::make('nip_pembina_kmi')
+                        ->label('NIP Pembina KMI')
+                        ->required(),
+                    Forms\Components\FileUpload::make('susunan_pengurus')
+                        ->acceptedFileTypes(['application/pdf'])
+                        ->directory('spkb')
+                        ->openable()
+                        ->label('Susunan Pengurus')
+                        ->required(),
+                ])->columns(2),
+                
+                
+                
+                
             ]);
     }
 
@@ -124,7 +132,7 @@ class SpkbResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tanggal_surat')
                     ->label('Tanggal Surat')
-                    ->date()
+                    ->date('d-m-Y')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('jml_lampiran')
