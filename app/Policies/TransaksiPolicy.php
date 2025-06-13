@@ -14,12 +14,10 @@ class TransaksiPolicy
      */
     public function viewAny(User $user): bool
     {
-        if (Auth::check()){
+        if (in_array($user->role, ['ketua','wakil', 'sekretaris', 'anggota', 'bsomtq', 'phkmi', 'bendahara'])) {
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -27,12 +25,10 @@ class TransaksiPolicy
      */
     public function view(User $user, Transaksi $transaksi): bool
     {
-        if (Auth::check()){
+        if (in_array($user->role, ['ketua','wakil', 'sekretaris', 'anggota', 'bsomtq', 'phkmi', 'bendahara'])) {
             return true;
         }
-        else{
-            return false;
-        }
+        return $transaksi->user_id == $user->id;
     }
 
     /**
@@ -40,12 +36,10 @@ class TransaksiPolicy
      */
     public function create(User $user): bool
     {
-        if (Auth::check()){
+        if (in_array($user->role, ['ketua','wakil', 'sekretaris', 'anggota', 'bsomtq', 'phkmi', 'bendahara'])) {
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -53,12 +47,10 @@ class TransaksiPolicy
      */
     public function update(User $user, Transaksi $transaksi): bool
     {
-        if (Auth::check()){
+        if (in_array($user->role, ['ketua','wakil', 'sekretaris', 'anggota', 'bsomtq', 'phkmi', 'bendahara'])) {
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -66,12 +58,10 @@ class TransaksiPolicy
      */
     public function delete(User $user, Transaksi $transaksi): bool
     {
-        if (Auth::check()){
+        if (in_array($user->role, ['ketua','wakil', 'sekretaris', 'anggota', 'bsomtq', 'phkmi', 'bendahara'])) {
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -79,12 +69,7 @@ class TransaksiPolicy
      */
     public function restore(User $user, Transaksi $transaksi): bool
     {
-        if (Auth::check()){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return true;
     }
 
     /**
@@ -92,11 +77,6 @@ class TransaksiPolicy
      */
     public function forceDelete(User $user, Transaksi $transaksi): bool
     {
-        if (Auth::check()){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return true;
     }
 }

@@ -14,6 +14,9 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
+        if ($user->role === 'external') {
+            return false;
+        }
         if (in_array($user->role, ['ketua', 'sekretaris'])) {
             return true;
         }
@@ -26,6 +29,9 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
+        if ($user->role === 'external') {
+            return false;
+        }
         if (in_array($user->role, ['ketua', 'sekretaris'])) {
             return true;
         }

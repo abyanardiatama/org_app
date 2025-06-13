@@ -7,6 +7,8 @@ use App\Models\RAB;
 use App\Models\spkb;
 use App\Models\User;
 use App\Models\Divisi;
+use App\Models\Donasi;
+use App\Models\SKKKMI;
 use App\Models\Kegiatan;
 use App\Models\Presensi;
 use App\Models\Sertijab;
@@ -15,16 +17,18 @@ use App\Models\SuratTugas;
 use App\Models\SuratProposal;
 use App\Models\SuratUndangan;
 use App\Models\SuratDivisiKKMI;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\SuratPeminjaman;
 use App\Models\SuratPeringatan;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\SuratPermohonan;
 use Illuminate\Database\Seeder;
 use App\Models\BarangPeminjaman;
-use App\Models\SKKKMI;
-use App\Models\SuratBalasanPeminjaman;
+use App\Models\MahasiswaBerprestasi;
+use App\Models\Perlombaan;
+use App\Models\RabItem;
 use App\Models\TempatPeminjaman;
 use App\Models\SuratKeteranganAktif;
+use App\Models\SuratBalasanPeminjaman;
 
 class DatabaseSeeder extends Seeder
 {
@@ -39,8 +43,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DivisiSeeder::class,
             UserSeeder::class,
+            KegiatanSeeder::class,
         ]);
-        Kegiatan::factory(11)->create();
+        // Kegiatan::factory(11)->create();
         Presensi::factory(11)->create();
         RAB::factory(11)->create();
         Transaksi::factory(11)->create();
@@ -59,11 +64,21 @@ class DatabaseSeeder extends Seeder
         LPJ::factory(11)->create();
         SuratBalasanPeminjaman::factory(11)->create();
         SKKKMI::factory(11)->create();
+        Perlombaan::factory(11)->create();
+        MahasiswaBerprestasi::factory(11)->create();
+        RabItem::factory(11)->create();
+
+        // Tambah user eksternal dummy
+        User::factory(5)->create([
+            'role' => 'external',
+        ]);
+
+        Donasi::factory(11)->create();
 
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
-            'role' => 'sekretaris',
+            'role' => 'external',
         ]);
     }
 }

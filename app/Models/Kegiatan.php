@@ -21,4 +21,8 @@ class Kegiatan extends Model
     {
         return $this->belongsTo(Divisi::class);
     }
+    public function donasi()
+    {
+        return $this->hasMany(Donasi::class);
+    }
 }

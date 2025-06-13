@@ -63,6 +63,10 @@ class User extends Authenticatable implements HasAvatar
     {
         return $this->belongsTo(Divisi::class);
     }
+    public function donasi()
+    {
+        return $this->hasMany(Donasi::class);
+    }
     
     public function getFilamentAvatarUrl(): ?string
     {

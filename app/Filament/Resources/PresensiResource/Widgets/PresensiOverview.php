@@ -12,7 +12,9 @@ class PresensiOverview extends BaseWidget
     protected function getStats(): array
     {
         $userId = Auth::id();
+        // dd($userId); // Debugging line to check the user ID
         $totalPoin = Presensi::where('user_id', $userId)->sum('total_poin');
+        // dd($totalPoin); // Debugging line to check the total poin
 
         return [
             Stat::make('Total Poin', $totalPoin)

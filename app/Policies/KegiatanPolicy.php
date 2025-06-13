@@ -15,7 +15,7 @@ class KegiatanPolicy
     public function viewAny(User $user): bool
     {
         // in_array(Auth::user()->role, ['ketua', 'sekretaris'])
-        if  (Auth::user()->role == 'ketua' || Auth::user()->role == 'sekretaris'){
+        if  (in_array($user->role, ['ketua','wakil', 'sekretaris', 'anggota', 'bsomtq', 'phkmi', 'bendahara'])) {
             return true;
         }
         else{
@@ -32,7 +32,8 @@ class KegiatanPolicy
             return true;
         }
         else{
-            return false;
+            //return where divisi id == user divisi id
+            return $user->divisi_id == $kegiatan->divisi_id;
         }
     }
 

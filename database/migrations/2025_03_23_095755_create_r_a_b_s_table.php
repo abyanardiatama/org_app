@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('r_a_b_s', function (Blueprint $table) {
             $table->id();
             $table->string('divisi');
-            $table->string('nama_anggota');
+            // $table->string('nama_anggota');
+            $table->string('nama_kegiatan');
             $table->string('tanggal_kegiatan');
             $table->string('jumlah');
             $table->string('status')->default('belum diproses');

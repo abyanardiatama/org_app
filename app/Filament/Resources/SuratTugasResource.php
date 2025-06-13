@@ -6,27 +6,22 @@ use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
-use App\Models\SuratTugas;
 use Filament\Tables\Table;
+use App\Models\SuratTugas;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Actions\ActionGroup;
-use PhpOffice\PhpWord\TemplateProcessor;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Enums\ActionsPosition;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SuratTugasResource\Pages;
-use App\Filament\Resources\SuratTugasResource\RelationManagers;
 
 class SuratTugasResource extends Resource
 {
     protected static ?string $model = SuratTugas::class;
-    protected static ?string $label = 'Surat Tugas';
-    protected static ?int $navigationSort = 9;
-    protected static ?string $navigationGroup = 'Arsip Surat';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $label = 'Surat Tugas';
+    protected static ?int $navigationSort = 16;
+    protected static ?string $navigationGroup = 'Arsip Surat';
 
     public static function form(Form $form): Form
     {
@@ -36,16 +31,22 @@ class SuratTugasResource extends Resource
                     Forms\Components\TextInput::make('no_surat')
                         ->label('No Surat')
                         ->required(),
+                    Forms\Components\DatePicker::make('tanggal_surat')
+                        ->label('Tanggal Surat')
+                        ->native(false)
+                        ->displayFormat('d F Y')
+                        ->required(),
+                ])->columns(2),
+
+                Section::make()->schema([
                     Forms\Components\TextInput::make('tempat')
                         ->label('Tempat')
                         ->required(),
-                    Forms\Components\DatePicker::make('tanggal_surat')
-                        ->label('Tanggal Surat')
-                        ->required(),
                 ])->columns(2),
+
                 Section::make()->schema([
                     Forms\Components\Select::make('ketua_kmi')
-                        ->label('Ketua KMI')
+                        ->label('Nama Ketua KMI')
                         ->options(function () {
                             return \App\Models\User::where('role', 'ketua')->pluck('name', 'name');
                         })
@@ -62,36 +63,52 @@ class SuratTugasResource extends Resource
                         })
                         ->required(),
                     Forms\Components\TextInput::make('nim_ketua_kmi')
-                        ->label('NIM')
+                        ->label('NIM Ketua KMI')
                         ->readOnly()
                         ->required(),
                     Forms\Components\TextInput::make('jurusan_ketua_kmi')
-                        ->label('Jurusan')
+                        ->label('Jurusan Ketua KMI')
                         ->required(),
                     Forms\Components\TextInput::make('jabatan_ketua_kmi')
-                        ->label('Jabatan')
+                        ->label('Jabatan Ketua KMI')
                         ->required(),
                     Forms\Components\FileUpload::make('ttd_ketua_kmi')
-                        ->label('Tanda Tangan ')
+                        ->label('Tanda Tangan Ketua KMI')
                         ->directory('surat_tugas')
                         ->image()
                         ->columnSpanFull(),
                 ])->columns(2),
+
                 Section::make()->schema([
-                    Forms\Components\TextInput::make('kepada')
-                        ->label('Kepada')
+                    Forms\Components\Select::make('kepada')
+                        ->label('Nama Kepada')
+                        ->options(function () {
+                            return \App\Models\User::pluck('name', 'name');
+                        })
+                        ->live(debounce:100)
+                        ->afterStateUpdated(function (callable $set, $state) {
+                            if ($state) {
+                                $user = \App\Models\User::where('name', $state)->first();
+                                if ($user) {
+                                    $set('nim_kepada', $user->nim);
+                                    $set('jurusan_kepada', $user->prodi);
+                                    $set('jabatan_kepada', $user->amanah);
+                                }
+                            }
+                        })
                         ->required(),
                     Forms\Components\TextInput::make('nim_kepada')
-                        ->label('NIM')
+                        ->label('NIM Kepada')
+                        ->readOnly()
                         ->required(),
                     Forms\Components\TextInput::make('jurusan_kepada')
-                        ->label('Jurusan')
+                        ->label('Jurusan Kepada')
                         ->required(),
                     Forms\Components\TextInput::make('jabatan_kepada')
-                        ->label('Jabatan')
+                        ->label('Jabatan Kepada')
                         ->required(),
                     Forms\Components\FileUpload::make('ttd_kepada')
-                        ->label('Tanda Tangan ')
+                        ->label('Tanda Tangan Kepada')
                         ->directory('surat_tugas')
                         ->image()
                         ->columnSpanFull(),
@@ -109,17 +126,23 @@ class SuratTugasResource extends Resource
                 Tables\Columns\TextColumn::make('tanggal_surat')
                     ->label('Tanggal Surat')
                     ->date('d-m-Y')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('kepada')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('tempat')
+                    ->label('Tempat')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('ketua_kmi')
                     ->label('Ketua KMI')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('kepada')
+                    ->label('Kepada')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Dibuat Pada')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Diperbarui Pada')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -128,40 +151,44 @@ class SuratTugasResource extends Resource
                 //
             ])
             ->actions([
-                Action::make('Download')
-                ->label('Download')
-                ->color('success')
-                //visible if ttd_ketua_lama and ttd_ketua_baru is not null
-                ->visible(fn ($record) => $record->ttd_ketua_kmi != null)
-                ->icon('heroicon-o-arrow-down')
-                ->action(function ($record) {
-                    $templateProcessor = new TemplateProcessor(public_path('template/template_surat_tugas.docx'));
+                \Filament\Tables\Actions\Action::make('Download')
+                    ->label('Download')
+                    ->color('success')
+                    ->icon('heroicon-o-arrow-down')
+                    ->visible(fn ($record) =>
+                        $record->ttd_ketua_kmi != null && $record->ttd_kepada != null
+                    )
+                    ->action(function ($record) {
+                        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor(public_path('template/template_surat_tugas.docx'));
 
-                    $templateProcessor->setValue('no_surat', $record->no_surat);
-                    $templateProcessor->setValue('tempat', $record->tempat);
-                    $templateProcessor->setValue('tanggal_surat', Carbon::parse($record->tanggal_surat)->translatedFormat('d F Y'));
+                        $templateProcessor->setValue('no_surat', $record->no_surat);
+                        $templateProcessor->setValue('tempat', $record->tempat);
+                        $templateProcessor->setValue('tanggal_surat', Carbon::parse($record->tanggal_surat)->translatedFormat('d F Y'));
 
-                    $templateProcessor->setValue('kepada', $record->kepada);
-                    $templateProcessor->setValue('nim_kepada', $record->nim_kepada);
-                    $templateProcessor->setValue('jurusan_kepada', $record->jurusan_kepada);
-                    $templateProcessor->setValue('jabatan_kepada', $record->jabatan_kepada);
+                        $templateProcessor->setValue('kepada', $record->kepada);
+                        $templateProcessor->setValue('nim_kepada', $record->nim_kepada);
+                        $templateProcessor->setValue('jurusan_kepada', $record->jurusan_kepada);
+                        $templateProcessor->setValue('jabatan_kepada', $record->jabatan_kepada);
 
-                    $templateProcessor->setValue('ketua_kmi', $record->ketua_kmi);
-                    $templateProcessor->setValue('nim_ketua', $record->nim_ketua_kmi);
-                    $templateProcessor->setValue('jurusan_ketua_kmi', $record->jurusan_ketua_kmi);
-                    $templateProcessor->setValue('jabatan_ketua_kmi', $record->jabatan_ketua_kmi);
-                    $templateProcessor->setImageValue('ttd_ketua_kmi', public_path('storage/' . $record->ttd_ketua_kmi));
-                    $templateProcessor->setImageValue('ttd_kepada', public_path('storage/' . $record->ttd_kepada));
-                
-                    
-                
-                    $cleanNoSurat = str_replace('/', '_', $record->no_surat);
-                    $fileName = "Surat Tugas - {$cleanNoSurat}"; 
-                    $docxPath = public_path("storage/surat_tugas/{$fileName}.docx");
-                    // Save the document as a .docx file
-                    $templateProcessor->saveAs($docxPath);
-                    return response()->download($docxPath, "{$fileName}.docx")->deleteFileAfterSend(true);   
-                }),
+                        $templateProcessor->setValue('ketua_kmi', $record->ketua_kmi);
+                        $templateProcessor->setValue('nim_ketua', $record->nim_ketua_kmi);
+                        $templateProcessor->setValue('jurusan_ketua_kmi', $record->jurusan_ketua_kmi);
+                        $templateProcessor->setValue('jabatan_ketua_kmi', $record->jabatan_ketua_kmi);
+
+                        if ($record->ttd_ketua_kmi) {
+                            $templateProcessor->setImageValue('ttd_ketua_kmi', public_path('storage/' . $record->ttd_ketua_kmi));
+                        }
+                        if ($record->ttd_kepada) {
+                            $templateProcessor->setImageValue('ttd_kepada', public_path('storage/' . $record->ttd_kepada));
+                        }
+
+                        $cleanNoSurat = str_replace('/', '_', $record->no_surat);
+                        $fileName = "Surat Tugas - {$cleanNoSurat}";
+                        $docxPath = public_path("storage/surat_tugas/{$fileName}.docx");
+                        $templateProcessor->saveAs($docxPath);
+
+                        return response()->download($docxPath, "{$fileName}.docx")->deleteFileAfterSend(true);
+                    }),
                 ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
@@ -191,20 +218,17 @@ class SuratTugasResource extends Resource
         ];
     }
 
-    public static function getEloquentQuery(): Builder
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
         return SuratTugas::query()
-            // ketua can see all surat keterangan aktif
-            ->when(Auth::user() && !in_array(Auth::user()->role, ['ketua', 'sekretaris']), function (Builder $query) {
+            ->when(Auth::user() && !in_array(Auth::user()->role, ['ketua', 'sekretaris']), function ($query) {
                 return $query->where('kepada', Auth::user()->name);
             })
-            // ketua see where nama_ketua_kmi is same as their name
-            ->when((Auth::user()->role == 'ketua'), function (Builder $query) {
+            ->when((Auth::user()->role == 'ketua'), function ($query) {
                 return $query->where('ketua_kmi', Auth::user()->name);
             })
-            //sekretaris see all surat keterangan aktif
-            ->when(Auth::user()->role == 'sekretaris', function (Builder $query) {
-                return $query->withoutGlobalScopes([SoftDeletingScope::class]);
+            ->when(Auth::user()->role == 'sekretaris', function ($query) {
+                return $query;
             });
     }
 }

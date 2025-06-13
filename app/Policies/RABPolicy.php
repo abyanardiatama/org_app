@@ -14,21 +14,9 @@ class RABPolicy
      */
     public function viewAny(User $user): bool
     {
-        // Ketua dapat melihat semua data
-        if ($user->role === 'ketua') {
+        if (in_array($user->role, ['ketua', 'sekretaris', 'bendahara', 'phkmi']))  {
             return true;
         }
-
-        // Bendahara dapat melihat semua data
-        if ($user->role === 'bendahara') {
-            return true;
-        }
-
-        // PH KMI hanya dapat melihat data yang mereka buat
-        if ($user->role === 'ph_kmi') {
-            return true;
-        }
-
         return false;
     }
 
@@ -37,18 +25,7 @@ class RABPolicy
      */
     public function view(User $user, RAB $rAB): bool
     {
-        // Ketua dapat melihat semua data
-        if ($user->role === 'ketua') {
-            return true;
-        }
-
-        // Bendahara dapat melihat semua data
-        if ($user->role === 'bendahara') {
-            return true;
-        }
-
-        // PH KMI hanya dapat melihat data yang mereka buat
-        if ($user->role === 'ph_kmi' && $rAB->created_by === $user->id) {
+        if (in_array($user->role, ['ketua', 'bendahara', 'sekretaris', 'phkmi'])) {
             return true;
         }
 
@@ -60,7 +37,7 @@ class RABPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role === 'bendahara';
+        return in_array($user->role, ['ketua', 'sekretaris', 'bendahara','phkmi']);
     }
 
     /**
@@ -68,15 +45,14 @@ class RABPolicy
      */
     public function update(User $user, RAB $rAB): bool
     {
-        return $user->role === 'bendahara';
+        return in_array($user->role, ['ketua', 'sekretaris', 'bendahara','phkmi']);
     }
-
     /**
      * Determine whether the user can delete the model.
      */
     public function delete(User $user, RAB $rAB): bool
     {
-        return $user->role === 'bendahara';
+        return in_array($user->role, ['ketua', 'sekretaris', 'bendahara','phkmi']);
     }
 
     /**
@@ -84,6 +60,7 @@ class RABPolicy
      */
     public function restore(User $user, RAB $rAB): bool
     {
+        // This method is not used in the current context, but you can implement it if needed
         return in_array($user->role, ['ketua', 'sekretaris', 'bendahara']);
     }
 
@@ -92,6 +69,7 @@ class RABPolicy
      */
     public function forceDelete(User $user, RAB $rAB): bool
     {
+        // This method is not used in the current context, but you can implement it if needed
         return in_array($user->role, ['ketua', 'sekretaris', 'bendahara']);
     }
 }

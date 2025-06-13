@@ -27,11 +27,11 @@ class Presensi extends Model
         parent::boot();
 
         static::creating(function ($presensi) {
-            // Ambil total poin sebelumnya
-            $totalPoinSebelumnya = Presensi::where('user_id', $presensi->user_id)->sum('total_poin');
-            
-            // Update total poin baru
-            $presensi->total_poin = $totalPoinSebelumnya + $presensi->poin_peran + $presensi->poin_kehadiran;
+            $presensi->poin_peran = $presensi->poin_peran ?? 0;
+            $presensi->poin_kehadiran = $presensi->poin_kehadiran ?? 0;
+
+            $presensi->total_poin = $presensi->poin_peran + $presensi->poin_kehadiran;
+
         });
     }
 

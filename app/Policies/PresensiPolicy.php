@@ -16,7 +16,7 @@ class PresensiPolicy
      use HandlesAuthorization;
     public function viewAny(User $user): bool
     {
-        if (Auth::check()){
+        if (in_array($user->role, ['ketua', 'sekretaris', 'bendahara', 'anggota', 'bsomtq', 'phkmi'])) {
             return true;
         }
         else{
@@ -37,12 +37,13 @@ class PresensiPolicy
         // else{
         //     return false;
         // }
-        if (in_array($user->role, ['ketua', 'sekretaris'])) {
+        if (in_array($user->role, ['ketua', 'sekretaris', 'bendahara', 'anggota', 'bsomtq', 'phkmi'])) {
             return true;
         }
 
         // User biasa hanya bisa melihat presensi mereka sendiri
-        return $user->id === $presensi->user_id;
+        // return $user->id === $presensi->user_id;
+        return false;
     }
 
     /**
@@ -69,12 +70,13 @@ class PresensiPolicy
         // else{
         //     return false;
         // }
-        if (in_array($user->role, ['ketua', 'sekretaris'])) {
+        if (Auth::user()->role == 'ketua' || Auth::user()->role == 'sekretaris'){
             return true;
         }
 
         // User biasa hanya bisa melihat presensi mereka sendiri
-        return $user->id === $presensi->user_id;
+        // return $user->id === $presensi->user_id;
+        return false;
     }
 
     /**

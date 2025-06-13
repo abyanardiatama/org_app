@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('kegiatan_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('status')->default('hadir');
-            $table->string('peran')->default('peserta');
+            $table->string('status');
+            $table->string('peran')->nullable();
             //poin peran
             $table->integer('poin_peran')->default(0);
             //poin kehadiran

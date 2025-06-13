@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('kepada');
             $table->string('kegiatan');
             $table->string('tempat');
+            $table->string('keperluan');
             $table->dateTime('tanggal_mulai');
             $table->dateTime('tanggal_selesai');
 

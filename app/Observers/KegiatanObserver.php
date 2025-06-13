@@ -22,8 +22,7 @@ class KegiatanObserver
                 'kegiatan_id' => $kegiatan->id,
                 'status' => 'pending', // Admin tinggal mengisi Hadir/Tidak Hadir
                 'poin_peran' => 1, // Bisa diatur sesuai kebutuhan
-                'poin_kehadiran' => -1, // Bisa diatur sesuai kebutuhan
-                //didapat dari total point sebelumnya
+                'poin_kehadiran' => 1, // Bisa diatur sesuai kebutuhan
                 'total_poin' => $user->presensi->sum('total_poin')
             ]);
         }

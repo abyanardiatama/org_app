@@ -156,12 +156,15 @@ class PresensiResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('poin_peran')
                     ->numeric()
+                    ->alignCenter()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('poin_kehadiran')
-                    ->numeric()
+                    ->default(0)
+                    ->alignCenter()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total_poin')
                     ->numeric()
+                    ->alignCenter()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -192,18 +195,22 @@ class PresensiResource extends Resource
                     ->visible(fn ($record) => in_array(Auth::user()->role, ['ketua', 'sekretaris']) && $record->status === 'pending')
                     ->icon('heroicon-o-check-circle')
                     ->action(function ($record) {
+                        if ($record->status === 'hadir') {
+                            // Sudah hadir, tidak perlu update apapun
+                            Notification::make()
+                                ->title('Status sudah Hadir')
+                                ->info()
+                                ->send();
+                            return;
+                        }
                         $poinPeran = $record->poin_peran;
                         $poinKehadiran = 1;
-
-                        // Hitung total poin dengan benar
-                        $totalPoinBaru = $record->total_poin + $poinPeran + $poinKehadiran;
-
+                        $totalPoinBaru = $record->total_poin - $record->poin_kehadiran + $poinKehadiran;
                         $record->update([
                             'status' => 'hadir',
                             'poin_kehadiran' => $poinKehadiran,
                             'total_poin' => $totalPoinBaru,
                         ]);
-
                         Notification::make()
                             ->title('Status Presensi Diubah')
                             ->success()
@@ -219,8 +226,10 @@ class PresensiResource extends Resource
                 ->action(function ($record) {
                     $record->update([
                         'status' => 'tidak hadir',
+                        'poin_peran' => 0,
                         'poin_kehadiran' => 0, // Tidak dapat poin kehadiran
-                        'total_poin' => $record->total_poin - $record->poin_kehadiran, // Kurangi poin kehadiran sebelumnya
+                        // 'total_poin' => $record->total_poin - $record->poin_kehadiran, // Kurangi poin kehadiran sebelumnya
+                        'total_poin' => $record->poin_kehadiran + $record->poin_peran
                     ]);
 
                     Notification::make()
@@ -274,7 +283,14 @@ class PresensiResource extends Resource
         ];
     }
 
-
+    public static function canCreate(): bool
+    {
+        // return false;
+        if (Auth::check() && in_array(Auth::user()->role, ['ketua', 'sekretaris'])) {
+            return true; // Only Ketua and Sekretaris can create Presensi
+        }
+        return false;
+    }
     // public static function getNavigationItems(): array
     // {
     //     //make new navigation item for auth presensi

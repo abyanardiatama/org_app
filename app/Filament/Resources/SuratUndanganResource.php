@@ -68,6 +68,10 @@ class SuratUndanganResource extends Resource
                     Forms\Components\TextInput::make('tempat')
                         ->label('Tempat Kegiatan')
                         ->required(),
+                    Forms\Components\TextInput::make('keperluan')
+                        ->label('Keperluan')
+                        ->required()
+                        ->helperText('Contoh: menghadiri dan memberi sambutan'),
                     Forms\Components\Group::make([
                         Forms\Components\DateTimePicker::make('tanggal_mulai')
                             ->label('Tanggal Mulai Acara')
@@ -248,6 +252,7 @@ class SuratUndanganResource extends Resource
                         $templateProcessor->setValue('kepada', $record->kepada);
                         $templateProcessor->setValue('kegiatan', $record->kegiatan);
                         $templateProcessor->setValue('tempat', $record->tempat);
+                        $templateProcessor->setValue('keperluan', $record->keperluan);
                         $templateProcessor->setValue('tanggal_mulai', \Carbon\Carbon::parse($record->tanggal_mulai)->translatedFormat('l, d F Y'));
                         $templateProcessor->setValue('tanggal_selesai', \Carbon\Carbon::parse($record->tanggal_selesai)->translatedFormat('l, d F Y'));
                         $templateProcessor->setValue('waktu_mulai', \Carbon\Carbon::parse($record->tanggal_mulai)->translatedFormat('H:i'));

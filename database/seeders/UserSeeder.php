@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         $divisiMapping = [
             'Pengurus Inti' => 1,
             'BK KKMI' => 2,
-            'Kaderisasi' => 3,
+            'Keilmuan' => 3,
             'Syiar' => 4,
             'Dana Usaha' => 5,
             'Kemuslimahan' => 6,
@@ -106,7 +106,7 @@ class UserSeeder extends Seeder
                 'angkatan' => '2023',
                 'amanah' => 'Wakil Ketua Divisi',
                 'no_hp' => '62895397590200',
-                'gender' => 'P',
+                'gender' => 'L',
                 'nim' => '112230094',
                 'nip' => null,
             ],
@@ -173,7 +173,7 @@ class UserSeeder extends Seeder
             // Kaderisasi
             [
                 'name' => 'Maytha Ayu Rachmawati',
-                'email' => 'maytha.kaderisasi@example.com',
+                'email' => 'maytha.keilmuan@example.com',
                 'email_verified_at' => now(),
                 'role' => 'ketua',
                 'divisi_id' => 3, // Kaderisasi
@@ -188,7 +188,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Isnu Angga Winata',
-                'email' => 'isnu.kaderisasi@example.com',
+                'email' => 'isnu.keilmuan@example.com',
                 'email_verified_at' => now(),
                 'role' => 'wakil',
                 'divisi_id' => 3,
@@ -203,7 +203,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Nisrina Taqiyah',
-                'email' => 'nisrina.kaderisasi@example.com',
+                'email' => 'nisrina.keilmuan@example.com',
                 'email_verified_at' => now(),
                 'role' => 'wakil',
                 'divisi_id' => 3,
@@ -218,7 +218,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Tabriza Aqila',
-                'email' => 'tabriza.kaderisasi@example.com',
+                'email' => 'tabriza.keilmuan@example.com',
                 'email_verified_at' => now(),
                 'role' => 'anggota',
                 'divisi_id' => 3,
@@ -233,7 +233,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Renza Juheni',
-                'email' => 'renza.kaderisasi@example.com',
+                'email' => 'renza.keilmuan@example.com',
                 'email_verified_at' => now(),
                 'role' => 'anggota',
                 'divisi_id' => 3,
@@ -248,7 +248,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Ahmad Mu\'tashim Rantisi',
-                'email' => 'ahmad.kaderisasi@example.com',
+                'email' => 'ahmad.keilmuan@example.com',
                 'email_verified_at' => now(),
                 'role' => 'anggota',
                 'divisi_id' => 3,
@@ -263,7 +263,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Alfath Hanif Baihaqi',
-                'email' => 'alfath.kaderisasi@example.com',
+                'email' => 'alfath.keilmuan@example.com',
                 'email_verified_at' => now(),
                 'role' => 'anggota',
                 'divisi_id' => 3,
@@ -278,7 +278,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Abyaz Affanzaky Shanahan',
-                'email' => 'abyaz.kaderisasi@example.com',
+                'email' => 'abyaz.keilmuan@example.com',
                 'email_verified_at' => now(),
                 'role' => 'anggota',
                 'divisi_id' => 3,
@@ -296,7 +296,7 @@ class UserSeeder extends Seeder
                 'name' => 'Haqqil Maulana',
                 'email' => 'haqqil.maulana@example.com',
                 'email_verified_at' => now(),
-                'role' => 'anggota',
+                'role' => 'ketua',
                 'divisi_id' => 4,
                 'prodi' => 'Teknik Perminyakan',
                 'fakultas' => 'FTM',

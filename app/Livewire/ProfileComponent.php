@@ -43,7 +43,7 @@ class ProfileComponent extends Component implements HasForms
                             ->label('NIM')
                             ->columnSpan(1)
                             ->default(fn() => Auth::user()->nim)
-                            ->required(),
+                            ,
                         Forms\Components\Select::make('divisi_id')
                             ->label('Divisi')
                             ->relationship('divisi', 'nama_divisi')
@@ -53,23 +53,23 @@ class ProfileComponent extends Component implements HasForms
                             ->searchable()
                             ->default(fn() => Auth::user()->divisi->id) // Use the ID instead of nama_divisi
                             ->columnSpan(1)
-                            ->required(),
+                            ,
                         Forms\Components\TextInput::make('prodi')
                             ->label('Prodi')
                             ->columnSpan(1)
                             ->default(fn() => Auth::user()->prodi)
-                            ->required(),
+                            ,
                         Forms\Components\TextInput::make('fakultas')
                             ->label('Fakultas')
                             ->columnSpan(1)
                             ->default(fn() => Auth::user()->fakultas)
-                            ->required(),
+                            ,
                         Forms\Components\TextInput::make('angkatan')
                             ->label('Angkatan')
                             ->numeric()
                             ->columnSpan(1)
                             ->default(fn() => Auth::user()->angkatan)
-                            ->required(),
+                            ,
                         Forms\Components\Select::make('gender')
                             ->label('Jenis Kelamin')
                             ->default(fn() => Auth::user()->gender)
@@ -93,7 +93,7 @@ class ProfileComponent extends Component implements HasForms
                             ->columnSpan(1)
                             ->searchable()
                             ->default(fn() => Auth::user()->amanah)
-                            ->required(),
+                            ,
                         Forms\Components\Select::make('role')
                             ->label('Role')
                             ->columnSpan(1)
@@ -122,7 +122,7 @@ class ProfileComponent extends Component implements HasForms
                             ->prefix('+62')
                             ->columnSpan(2)
                             ->default(fn() => Auth::user()->no_hp)
-                            ->required(),
+                            ,
                         
                     ]),
             ])

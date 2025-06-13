@@ -20,7 +20,7 @@ class EditRAB extends EditRecord
     public function mutateFormDataBeforeSave(array $data): array
     {
         //if the user that edit is admin or bendahara, change the status to 'sudah diproses'
-        if(Auth::user()->role == 'admin' || Auth::user()->role == 'bendahara') {
+        if(Auth::user()->role == 'phkmi' || Auth::user()->role == 'bendahara') {
             $data['status'] = 'sudah diproses';
         }
         return $data;

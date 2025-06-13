@@ -17,11 +17,13 @@ class DivisiSeeder extends Seeder
         $divisi = [
             'Pengurus Inti' => 1,
             'BK KKMI' => 2,
-            'Kaderisasi' => 3,
+            'Keilmuan' => 3,
             'Syiar' => 4,
             'Dana Usaha' => 5,
             'Kemuslimahan' => 6,
             'Media' => 7,
+            'Kaderisasi' => 8,
+            'Jaringan' => 9,
         ];
 
         foreach ($divisi as $name => $id) {

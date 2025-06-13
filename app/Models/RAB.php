@@ -11,4 +11,9 @@ class RAB extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function rabItems()
+    {
+        return $this->hasMany(RabItem::class, 'rab_id');
+    }
 }

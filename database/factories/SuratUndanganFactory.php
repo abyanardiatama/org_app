@@ -77,6 +77,7 @@ class SuratUndanganFactory extends Factory
             'kepada' => $kepada,
             'kegiatan' => $kegiatan,
             'tempat' => $tempat,
+            'keperluan' => 'menghadiri dan memberi sambutan',
             'tanggal_mulai' => $tanggal_mulai,
             'tanggal_selesai' => $tanggal_selesai,
 

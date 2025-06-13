@@ -26,8 +26,8 @@ class PresensiFactory extends Factory
             'ketua divisi' => 3,
             'ketua pelaksana' => 4,
         };
-        // if hadir, poin kehadiran = 1, tidak hadir 0, pending -1
-        $poinKehadiran = $status === 'hadir' ? 1 : ($status === 'tidak hadir' ? 0 : 0);
+        // $poinKehadiran = $status === 'hadir' ? 1 : ($status === 'tidak hadir' ? 0 : 0);
+        $poinKehadiran = 1;
 
         $userId = $this->faker->numberBetween(1, 10);
         $totalPoinSebelumnya = DB::table('presensis')
@@ -41,8 +41,8 @@ class PresensiFactory extends Factory
             'peran' => $peran,
             'poin_peran' => $poinPeran,
             'poin_kehadiran' => $poinKehadiran,
-            'total_poin' => $totalPoinSebelumnya + $poinPeran + $poinKehadiran
-            // 'total_poin' => $poinPeran + $poinKehadiran,
+            'total_poin' => $totalPoinSebelumnya + $poinPeran + $poinKehadiran,
+            'total_poin' => $poinPeran + $poinKehadiran
         ];
     }
 }

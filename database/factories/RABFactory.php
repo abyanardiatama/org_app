@@ -19,10 +19,10 @@ class RABFactory extends Factory
         $eventPrefixes = ['Annual', 'Global', 'National', 'Regional', 'Community', 'Corporate', 'Professional'];
         $eventTopics = ['Leadership', 'Innovation', 'Development', 'Collaboration', 'Networking', 'Growth', 'Strategy'];
         $eventTypes = ['Summit', 'Forum', 'Conference', 'Workshop', 'Meetup', 'Convention', 'Retreat'];
-
+        
         return [
             'divisi' => $this->faker->randomElement(['Keuangan', 'SDM', 'Marketing', 'Teknologi Informasi', 'Operasional']),
-            'nama_anggota' => $this->faker->name(),
+            'nama_kegiatan' => $this->faker->randomElement($eventPrefixes) . ' ' . $this->faker->randomElement($eventTopics) . ' ' . $this->faker->randomElement($eventTypes),
             'tanggal_kegiatan' => $this->faker->date(),
             'status' => $this->faker->randomElement(['sudah diproses', 'belum diproses']),
             // jumlah in 100.000 - 1.000.000
