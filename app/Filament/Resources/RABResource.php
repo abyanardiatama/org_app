@@ -147,10 +147,10 @@ class RABResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('divisi')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('nama_anggota'
-                    //show name based id
-                    )->label('Nama Anggota')
-                    ->formatStateUsing(fn ($state, RAB $record) => $record->user->name ?? 'Tidak Diketahui')
+                Tables\Columns\TextColumn::make('nama_kegiatan')
+                    //show nama_kegiatan from kegiatan model
+                    ->label('Nama Kegiatan')
+                    ->formatStateUsing(fn ($state, RAB $record) => $record->nama_kegiatan)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tanggal_kegiatan')
                     ->searchable()
